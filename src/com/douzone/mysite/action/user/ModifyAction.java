@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.douzone.mvc.action.Action;
 import com.douzone.mvc.util.WebUtils;
@@ -26,6 +27,11 @@ public class ModifyAction implements Action {
 		UserVo vo = new UserVo (name, email, password, gender, no);
 		
 		new UserDao().Update(vo);
+		
+		HttpSession session = request.getSession(true);
+		
+		session.setAttribute("authuser", vo);
+		
 		WebUtils.redirect(request, response, request.getContextPath());
 
 	}

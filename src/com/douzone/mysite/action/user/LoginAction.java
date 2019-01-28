@@ -29,6 +29,8 @@ public class LoginAction implements Action {
 			return;
 		}
 		
+		System.out.println("Login Action Test");
+		
 //		인증성공 -> 인증처리 -> 로그인 성공
 //		request.getSession(false);  // 없으면  null
 		HttpSession session = request.getSession(true);
