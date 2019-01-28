@@ -1,10 +1,14 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="/assets/css/board.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/assets/css/board.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
@@ -23,34 +27,33 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>				
-					<tr>
-						<td>3</td>
-						<td><a href="">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
 					</tr>
+					
+					<c:set var="count" value="${fn:length(list) }"/>
+					
+					<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
-						<td>2</td>
-						<td><a href="">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td>${count - status.index }</td>
+						<td style="padding-left:${50*(vo.depth-1) }px">
+						<c:if test="${vo.orderNo eq 0 }">
+							<img src="/mysite2/assets/images/reply.png" style="width:10px">
+						</c:if>
+						<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
+						<td>${vo.userNo }</td>
+						<td>${vo.hit }</td>
+						<td>${vo.writeDate }</td>
+						<td>
+						<%-- 이부분 수정 해야 됩니다. --%>
+						<%-- 조회수도 수정 해야 됩니다. --%>
+						<c:if test="${authuser.no eq vo.userNo }">
+							<a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no }" class="del"><img src="/mysite2/assets/images/recycle.png"></a></td>
+						</c:if>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
+					</c:forEach>
 				</table>
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="${pageContext.servletContext.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					
 				</div>				
 			</div>
 		</div>

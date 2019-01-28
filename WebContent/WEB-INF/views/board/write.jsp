@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="/assets/css/board.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.servletContext.contextPath }/assets/css/board.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
 		<jsp:include page="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="/board">
+				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
+					<input type = "hidden" name = "op" value="${param.op }">
+					<input type="hidden" name="userNo" value="${authuser.getNo() }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -30,7 +31,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="/board">취소</a>
+						<a href="${pageContext.servletContext.contextPath }">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				

@@ -2,10 +2,6 @@
 <%@page import="com.douzone.mysite.vo.GuestbookVo"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	List<GuestbookVo> list = new GuestbookDao().getList();
-	int count = list.size();
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +31,10 @@
 				</form>
 				<ul>
 					<li>
-						<%for(GuestbookVo vo : list){ %>
+						<%
+						List<GuestbookVo> list = (List<GuestbookVo>)request.getAttribute("list");
+						int count = list.size();
+						for(GuestbookVo vo : list){ %>
 							<table width=510 border=1>
 								<tr>
 									<td> [<%= count--%>]</td>
