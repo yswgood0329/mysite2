@@ -12,8 +12,12 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board">
+				<p>write.jsp : ${vo.no }, ${vo.groupNo }, ${vo.orderNo }, ${vo.depth }</p>
 					<input type = "hidden" name = "a" value="write">
-					<input type = "hidden" name = "op" value="${param.op }">
+					<input type = "hidden" name = "no" value="${vo.no}">
+					<input type = "hidden" name = "gno" value="${vo.groupNo }">
+					<input type = "hidden" name = "ono" value="${vo.orderNo }">
+					<input type = "hidden" name = "depth" value="${vo.depth }">
 					<input type="hidden" name="userNo" value="${authuser.getNo() }">
 					<table class="tbl-ex">
 						<tr>

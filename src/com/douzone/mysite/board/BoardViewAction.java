@@ -17,7 +17,7 @@ public class BoardViewAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		long no = Long.parseLong(request.getParameter("no"));
-		System.out.println("no : " + no);
+//		System.out.println("no : " + no);
 		BoardVo vo = new BoardDao().View(no);
 		
 		request.setAttribute("vo", vo);

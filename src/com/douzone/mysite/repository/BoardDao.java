@@ -39,7 +39,7 @@ public class BoardDao {
 					   + "from		(select		* "
 					   +            "from 		board "
 					   +            "order 		by o_no) as a "
-					   + "order 	by g_no";
+					   + "order 	by g_no desc";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -111,7 +111,7 @@ public class BoardDao {
 	}
 	
 	public BoardVo View(long num) {
-		System.out.println(num);
+//		System.out.println(num);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -120,10 +120,7 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 			
-			String sql = "select 	no, "
-								 + "title, "
-								 + "context, "
-								 + "write_date "
+			String sql = "select 	*"
 					   + "from 		board "
 					   + "where 	no = ?";
 			
@@ -134,15 +131,19 @@ public class BoardDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				vo = new BoardVo();
-				vo.setNo(rs.getLong("no"));
-				vo.setTitle(rs.getString("title"));
-				vo.setContext(rs.getString("context"));
-				vo.setWriteDate(rs.getString("write_date"));
+				vo = new BoardVo(rs.getLong("no"),
+						rs.getString("title"),
+						rs.getString("context"),
+						rs.getString("write_date"),
+						rs.getInt("hit"),
+						rs.getInt("g_no"),
+						rs.getInt("o_no"),
+						rs.getInt("depth"),
+						rs.getLong("user_no"));
 			}
 			
 		} catch(SQLException e) {
-			System.out.println("error : " + e);
+			System.out.println("error(View) : " + e);
 		} finally {
 			// 자원 정리
 			try {
@@ -171,31 +172,26 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 			
-			String sql = "insert "
-					   + "into		board "
-					   + "value		(null, ?,?,?,?,?,(	select 	count(*) "
-					   								 + "from 	(	select 	no "
-					   								 			 + "from 	board "
-					   								 			 + "where 	g_no = ?) as x), "
-					   								 + "?,?)";
+			String sql = "insert into board value(null, ?, ?, current_date(), ?,?,?,?,?);";
+			
 			pstmt = conn.prepareStatement(sql);
+			
+			dataModify(vo.getGroupNo(), vo.getOrderNo(), vo.getNo());
 			
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContext());
-			pstmt.setString(3, vo.getWriteDate());
-			pstmt.setInt(4, vo.getHit());
-			pstmt.setInt(5, vo.getGroupNo());
-			pstmt.setInt(6, vo.getGroupNo());
-			pstmt.setInt(7, vo.getDepth());
-			pstmt.setLong(8, vo.getUserNo());
+			pstmt.setInt(3, vo.getHit());
+			pstmt.setInt(4, vo.getGroupNo());
+			pstmt.setInt(5, vo.getOrderNo());
+			pstmt.setInt(6, vo.getDepth());
+			pstmt.setLong(7, vo.getUserNo());
 			
 			pstmt.executeUpdate();
 			
-			groupNoSet();
 			
 			
 		} catch(SQLException e) {
-			System.out.println("error" + e);
+			System.out.println("error(write)" + e);
 		} finally {
 			// 자원 정리
 			try {
@@ -215,25 +211,24 @@ public class BoardDao {
 		
 	}
 	
-	public void groupNoSet() {
+	public void dataModify(int groupNo, int orderNo, long no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
-			String sql = "update	board "
-					   + "set 		g_no = no "
-					   + "where 	no = (select 	no "
-					   				   + "from 		(select 	no "
-					   				   			  + "from 		board "
-					   				   			  + "where 		g_no=0) "
-					   				   + "as x)";
+			System.out.println(groupNo + " : " + orderNo + " : " + no);
+			String sql = "update board set o_no = o_no + 1 where g_no = ? and o_no >= ? and no != ?";
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, groupNo);
+			pstmt.setInt(2, orderNo);
+			pstmt.setLong(3, no);
 			
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println("error : " + e);
+			System.out.println("error(dataModify) : " + e);
 		} finally {
 			// 자원 정리
 			try {
@@ -248,7 +243,7 @@ public class BoardDao {
 			}
 		}
 	}
-	
+//	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {

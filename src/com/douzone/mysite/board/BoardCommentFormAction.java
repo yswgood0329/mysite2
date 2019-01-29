@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mvc.action.Action;
 import com.douzone.mvc.util.WebUtils;
+import com.douzone.mysite.repository.BoardDao;
+import com.douzone.mysite.vo.BoardVo;
 
-public class BoardModifyFormAction implements Action {
+public class BoardCommentFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		BoardVo vo = new BoardDao().View(Integer.parseInt(request.getParameter("no")));
 		
-		System.out.println("test : " + request.getParameter("op"));
+		request.setAttribute("vo", vo);
 		
 		WebUtils.forward(request, response, "/WEB-INF/views/board/write.jsp");
 

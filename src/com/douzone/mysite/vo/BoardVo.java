@@ -26,6 +26,19 @@ public class BoardVo {
 		this.userNo = userNo;
 	}
 	
+	public BoardVo(String title, String context, int hit, int groupNo, int orderNo,
+			int depth, long userNo) {
+//		this.no = (no == 0) ? 0 : no;
+		this.title = title;
+		this.context = context;
+//		this.writeDate = writeDate;
+		this.hit = hit;
+		this.groupNo = groupNo;
+		this.orderNo = orderNo;
+		this.depth = depth;
+		this.userNo = userNo;
+	}
+	
 	
 	public long getNo() {
 		return no;

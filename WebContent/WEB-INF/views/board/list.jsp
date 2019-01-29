@@ -34,7 +34,7 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
 						<td>${count - status.index }</td>
-						<td style="padding-left:${50*(vo.depth-1) }px">
+						<td style="padding-left:${25*(vo.depth) }px; text-align:left;">
 						<c:if test="${vo.orderNo eq 0 }">
 							<img src="/mysite2/assets/images/reply.png" style="width:10px">
 						</c:if>

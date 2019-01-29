@@ -21,7 +21,7 @@
 						<th colspan="2">글보기</th>
 					</tr>
 					<tr>
-						<td class="label">제목</td>
+						<td class="label" >제목</td>
 						<td>${vo.title }</td>
 					</tr>
 					<tr>
@@ -33,11 +33,14 @@
 						</td>
 					</tr>
 				</table>
+			
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
-					<a href="${pageContext.servletContext.contextPath }/board">글수정</a>
-					<a href="${pageContext.servletContext.contextPath }/board?a=modifyform&op=${vo.no }">답글</a>
+						<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
+						<a href="${pageContext.servletContext.contextPath }/board">글수정</a>
+						<a href="${pageContext.servletContext.contextPath }/board?a=commentform&no=${vo.no }">답글</a>
 				</div>
+				
+				
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views//includes/navigation.jsp"/>
