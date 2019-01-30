@@ -34,6 +34,8 @@ public class BoardActionFactory extends AbstractActionFactory {
 			action = new BoardModifyFormAction();
 		} else if("modify".equals(actionName)) {
 			action = new BoardModifyAction();
+		} else if("find".equals(actionName)) {
+			action = new BoardFindAction();
 		} else {	// list
 			action = new BoardListAction();
 		}

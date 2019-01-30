@@ -11,12 +11,13 @@ import java.util.List;
 import com.douzone.mysite.vo.BoardVo;
 
 public class BoardDao {
-	public List<BoardVo> getTitleList(){
+	public List<BoardVo> getTitleList(String find, String kwd){
 		List<BoardVo> list = new ArrayList<BoardVo>();
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String subsql = null;
 		
 		try {
 			conn = getConnection();
@@ -27,7 +28,25 @@ public class BoardDao {
 //					   +            "order 		by o_no) as a "
 //					   + "order 	by g_no";
 			
-			String sql = "select	a.no, "
+			if ("title".equals(find)) {
+//				System.out.println("title");
+				subsql = " select * from board where title like ? order by o_no ";
+			} else if ("content".equals(find)) {
+//				System.out.println("content");
+				subsql = " select * from board where context like ? order by o_no ";
+			} else if ("user".equals(find)) {
+//				System.out.println("user");
+				subsql = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? order by o_no ";
+			} else if ("all".equals(find)) {
+//				System.out.println("all");
+				subsql = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? or context like ? or title like ? order by o_no ";
+			} else {
+//				System.out.println("other");
+				subsql = " select * from board order by o_no ";
+			}
+			
+			
+			String sql = "select	no, "
 								 + "title, "
 								 + "write_date, "
 								 + "hit, "
@@ -36,13 +55,24 @@ public class BoardDao {
 								 + "depth, "
 								 + "user_no "
 								 
-					   + "from		(select		* "
-					   +            "from 		board "
-					   +            "order 		by o_no) as a "
-					   + "join user b on a.user_no = b.no "
-					   + "order 	by g_no";
+					   + "from		( " + subsql + " ) as k "
+					   + "order 	by g_no "
+					   + "limit 0, 10 ";
 			
+			
+			
+//			System.out.println(kwd + " : " +sql);
 			pstmt = conn.prepareStatement(sql);
+			
+			if("all".equals(find)) {
+				System.out.println("find all");
+				pstmt.setString(1, "%" + kwd + "%");
+				pstmt.setString(2, "%" + kwd + "%");
+				pstmt.setString(3, "%" + kwd + "%");
+			} else if (!("".equals(find))) {
+				System.out.println("find ' '");
+				pstmt.setString(1, "%" + kwd + "%");
+			}
 			
 			rs = pstmt.executeQuery();
 			

@@ -41,7 +41,21 @@
 						</c:if>
 						<a href="${pageContext.servletContext.contextPath }/board?a=commentform&no=${vo.no }">답글</a>
 				</div>
-				
+				<table width=550 height=30 border=1>
+					<tr>
+						<td>댓글을 입력하세요</td>
+					</tr>
+				</table><br/>
+				<table width=550>
+					<tr border=1>
+						<td colspan=3 bgcolor="#F2F3F5" >이름 내용</td>
+					</tr>
+					<tr height=5px>
+						<td width=10%>좋아요</td>
+						<td width=15%>답글 달기</td>
+						<td>시간</td>
+					</tr>
+				</table>
 				
 			</div>
 		</div>
