@@ -1,4 +1,4 @@
-package com.douzone.mysite.board;
+package com.douzone.mysite.action.board;
 
 import java.io.IOException;
 

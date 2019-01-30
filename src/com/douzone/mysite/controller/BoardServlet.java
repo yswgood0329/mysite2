@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mvc.action.AbstractActionFactory;
 import com.douzone.mvc.action.Action;
-import com.douzone.mysite.board.BoardActionFactory;
+import com.douzone.mysite.action.board.BoardActionFactory;
 
 @WebServlet("/board")
 public class BoardServlet extends HttpServlet {

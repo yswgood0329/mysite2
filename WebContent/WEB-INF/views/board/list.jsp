@@ -35,7 +35,7 @@
 					<tr>
 						<td>${count - status.index }</td>
 						<td style="padding-left:${25*(vo.depth) }px; text-align:left;">
-						<c:if test="${vo.orderNo eq 0 }">
+						<c:if test="${vo.orderNo ne 1 }">
 							<img src="/mysite2/assets/images/reply.png" style="width:10px">
 						</c:if>
 						<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>

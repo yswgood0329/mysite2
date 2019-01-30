@@ -27,7 +27,7 @@ public class BoardDao {
 //					   +            "order 		by o_no) as a "
 //					   + "order 	by g_no";
 			
-			String sql = "select	no, "
+			String sql = "select	a.no, "
 								 + "title, "
 								 + "write_date, "
 								 + "hit, "
@@ -39,7 +39,8 @@ public class BoardDao {
 					   + "from		(select		* "
 					   +            "from 		board "
 					   +            "order 		by o_no) as a "
-					   + "order 	by g_no desc";
+					   + "join user b on a.user_no = b.no "
+					   + "order 	by g_no";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -176,7 +177,12 @@ public class BoardDao {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			dataModify(vo.getGroupNo(), vo.getOrderNo(), vo.getNo());
+			if(vo.getGroupNo() == 1) {
+				gnoSetting(vo.getGroupNo());
+				vo.setGroupNo(2);
+			} else {
+				dataModify(vo.getGroupNo(), vo.getOrderNo(), vo.getNo());
+			}
 			
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContext());
@@ -229,6 +235,35 @@ public class BoardDao {
 			
 		} catch (SQLException e) {
 			System.out.println("error(dataModify) : " + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void gnoSetting(int groupNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+//			System.out.println(groupNo + " : " + orderNo + " : " + no);
+			String sql = "update board set g_no = g_no + 1 where g_no >= 1";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error(gnoSetting) : " + e);
 		} finally {
 			// 자원 정리
 			try {

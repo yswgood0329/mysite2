@@ -1,4 +1,4 @@
-package com.douzone.mysite.board;
+package com.douzone.mysite.action.board;
 
 import com.douzone.mvc.action.AbstractActionFactory;
 import com.douzone.mvc.action.Action;

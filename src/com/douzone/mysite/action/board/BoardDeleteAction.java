@@ -1,4 +1,4 @@
-package com.douzone.mysite.board;
+package com.douzone.mysite.action.board;
 
 import java.io.IOException;
 
@@ -8,13 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mvc.action.Action;
 import com.douzone.mvc.util.WebUtils;
+import com.douzone.mysite.repository.BoardDao;
 
-public class BoardWriteFormAction implements Action {
+public class BoardDeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		long no = Long.parseLong(request.getParameter("no"));
 		
-		WebUtils.forward(request, response, "/WEB-INF/views/board/write.jsp");
+		new BoardDao().Delete(no);
+		
+		WebUtils.redirect(request, response, request.getContextPath() + "/board");
+
 	}
 
 }
