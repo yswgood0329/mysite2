@@ -2,6 +2,7 @@ package com.douzone.mysite.action.board;
 
 import com.douzone.mvc.action.AbstractActionFactory;
 import com.douzone.mvc.action.Action;
+import com.douzone.mvc.util.BoardModifyAction;
 
 public class BoardActionFactory extends AbstractActionFactory {
 
@@ -29,6 +30,10 @@ public class BoardActionFactory extends AbstractActionFactory {
 			action = new BoardCommentFormAction();
 		} else if("view".equals(actionName)) {
 			action = new BoardViewAction();
+		} else if("modifyform".equals(actionName)) {
+			action = new BoardModifyFormAction();
+		} else if("modify".equals(actionName)) {
+			action = new BoardModifyAction();
 		} else {	// list
 			action = new BoardListAction();
 		}

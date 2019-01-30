@@ -217,6 +217,39 @@ public class BoardDao {
 		
 	}
 	
+	public void modify(long no, String title, String content) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+//			System.out.println(groupNo + " : " + orderNo + " : " + no);
+			String sql = "update board set title = ?, context = ? where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setLong(3, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error(modify) : " + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void dataModify(int groupNo, int orderNo, long no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

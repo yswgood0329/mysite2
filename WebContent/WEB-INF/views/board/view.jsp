@@ -36,7 +36,9 @@
 			
 				<div class="bottom">
 						<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
-						<a href="${pageContext.servletContext.contextPath }/board">글수정</a>
+						<c:if test="${authuser.no eq vo.userNo }">
+							<a href="${pageContext.servletContext.contextPath }/board?a=modifyform&no=${vo.no }">글수정</a>
+						</c:if>
 						<a href="${pageContext.servletContext.contextPath }/board?a=commentform&no=${vo.no }">답글</a>
 				</div>
 				
