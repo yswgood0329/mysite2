@@ -11,13 +11,14 @@ import java.util.List;
 import com.douzone.mysite.vo.BoardVo;
 
 public class BoardDao {
-	public List<BoardVo> getTitleList(String find, String kwd){
+	public List<BoardVo> getTitleList(String find, String kwd, int sqlNo, boolean count){
+//		System.out.println(find + " : " + kwd + " : " + sqlNo);
 		List<BoardVo> list = new ArrayList<BoardVo>();
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String subsql = null;
+		String subsql1 = null;
 		
 		try {
 			conn = getConnection();
@@ -30,19 +31,19 @@ public class BoardDao {
 			
 			if ("title".equals(find)) {
 //				System.out.println("title");
-				subsql = " select * from board where title like ? order by o_no ";
+				subsql1 = " select * from board where title like ? order by o_no ";
 			} else if ("content".equals(find)) {
 //				System.out.println("content");
-				subsql = " select * from board where context like ? order by o_no ";
+				subsql1 = " select * from board where context like ? order by o_no ";
 			} else if ("user".equals(find)) {
 //				System.out.println("user");
-				subsql = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? order by o_no ";
+				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? order by o_no ";
 			} else if ("all".equals(find)) {
 //				System.out.println("all");
-				subsql = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? or context like ? or title like ? order by o_no ";
+				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? or context like ? or title like ? order by o_no ";
 			} else {
 //				System.out.println("other");
-				subsql = " select * from board order by o_no ";
+				subsql1 = " select * from board order by o_no ";
 			}
 			
 			
@@ -55,24 +56,37 @@ public class BoardDao {
 								 + "depth, "
 								 + "user_no "
 								 
-					   + "from		( " + subsql + " ) as k "
-					   + "order 	by g_no "
-					   + "limit 0, 10 ";
+					   + "from		( " + subsql1 + " ) as k "
+					   + "order 	by g_no ";
+//					   + "limit ?, 10 ";
+			
+			if(!count) {
+				sql = sql + "limit ?, 10 ";
+			}
 			
 			
 			
 //			System.out.println(kwd + " : " +sql);
 			pstmt = conn.prepareStatement(sql);
-			
+			int c = 1;
 			if("all".equals(find)) {
-				System.out.println("find all");
+//				System.out.println("find all");
 				pstmt.setString(1, "%" + kwd + "%");
 				pstmt.setString(2, "%" + kwd + "%");
 				pstmt.setString(3, "%" + kwd + "%");
-			} else if (!("".equals(find))) {
-				System.out.println("find ' '");
+				c = 4;
+			} else if ("title".equals(find) || 
+					   "content".equals(find) || 
+					   "user".equals(find)) {
+//				System.out.println("find title or content or user");
 				pstmt.setString(1, "%" + kwd + "%");
+				c = 2;
 			}
+			
+			if(!count)
+				pstmt.setInt(c, sqlNo*10);
+			
+			
 			
 			rs = pstmt.executeQuery();
 			
@@ -340,6 +354,41 @@ public class BoardDao {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int countData() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		
+		try {
+			conn = getConnection();
+			String sql = "select count(*) from board";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+				result = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			System.out.println("error(countData) : " + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 //	
 	private Connection getConnection() throws SQLException {

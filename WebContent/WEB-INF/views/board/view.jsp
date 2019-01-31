@@ -33,30 +33,37 @@
 						</td>
 					</tr>
 				</table>
-			
+				<p>${param.pageNo } : ${param.sqlNo } : ${pageCount } : ${pages } : ${nowPage } : ${maxPage }</p>
 				<div class="bottom">
-						<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
+						<a href="${pageContext.servletContext.contextPath }/board?pageNo=0&sqlNo=0">글목록</a>
 						<c:if test="${authuser.no eq vo.userNo }">
 							<a href="${pageContext.servletContext.contextPath }/board?a=modifyform&no=${vo.no }">글수정</a>
-						</c:if>
-						<a href="${pageContext.servletContext.contextPath }/board?a=commentform&no=${vo.no }">답글</a>
+							<a href="${pageContext.servletContext.contextPath }/board?a=replyform&no=${vo.no }">답글</a>
+						</c:if> <!-- 답글도 로그인을 해야 작성할수 있도록 수정 (옆의 if문을 한칸 아래로 옮기면 됨!!!) -->
+						
 				</div>
-				<table width=550 height=30 border=1>
-					<tr>
-						<td>댓글을 입력하세요</td>
-					</tr>
-				</table><br/>
-				<table width=550>
-					<tr border=1>
-						<td colspan=3 bgcolor="#F2F3F5" >이름 내용</td>
-					</tr>
-					<tr height=5px>
-						<td width=10%>좋아요</td>
-						<td width=15%>답글 달기</td>
-						<td>시간</td>
-					</tr>
-				</table>
-				
+				<form class="" method="post" action="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&userNo=${authuser.no }">
+					<table width=550 height=30>
+						<tr>
+							<c:if test="${not empty authuser.no}">
+								<td><input type="text" name="comment_content" value="" size="70%"></td>
+								<td width=8%><input type="submit" value="등록"></td>
+							</c:if>
+						</tr>
+					</table><br/>
+					<table width=550>
+						<c:forEach items="${list }" var="comment_vo" varStatus="status">
+							<tr border=1>
+								<td height=25 colspan=3 bgcolor="#F2F3F5" >${comment_vo.userNo } ${comment_vo.content }</td>
+							</tr>
+							<tr height=5px>
+								<td width=10%>좋아요 ${comment_vo.good }</td>
+								<td width=15%>댓글 달기</td>
+								<td>${comment_vo.writeDate }</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</form>
 			</div>
 		</div>
 		<jsp:include page="/WEB-INF/views//includes/navigation.jsp"/>

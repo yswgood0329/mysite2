@@ -16,9 +16,11 @@
 					<img id="profile" src="${pageContext.servletContext.contextPath }/assets/images/느려.PNG" style="width:200px">
 					<h2>안녕하세요. 양승우의  mysite에 오신 것을 환영합니다.</h2>
 					<p>
-						이 사이트는  웹 프로그램밍 실습과제 예제 사이트입니다.<br>
-						메뉴는  사이트 소개, 방명록, 게시판이 있구요. Python 수업 + 데이터베이스 수업 + 웹프로그래밍 수업 배운 거 있는거 없는 거 다 합쳐서
-						만들어 놓은 사이트 입니다.<br><br>
+						이 사이트는 웹 프로그래밍 실습 과제 예제 사이트 입니다.<br>
+						겁나 열심히 만들었구요.... 잘 봐주세요.....<br>
+						그런데 로그인을 안하시면 글쓰기나 수정 아무것도 안되요<br>
+						꼭 회원 가입 하시고 로그인 하셔야 됩니다.<br>
+						버튼도 없다고 기능 구현 안한거 절대 아닙니다.<br><br>
 						<a href="${pageContext.servletContext.contextPath }/guestbook?a=guestbook">방명록</a>에 글 남기기<br>
 					</p>
 				</div>

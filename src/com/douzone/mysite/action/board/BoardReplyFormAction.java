@@ -11,7 +11,7 @@ import com.douzone.mvc.util.WebUtils;
 import com.douzone.mysite.repository.BoardDao;
 import com.douzone.mysite.vo.BoardVo;
 
-public class BoardCommentFormAction implements Action {
+public class BoardReplyFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

@@ -16,9 +16,16 @@ public class BoardListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		List<BoardVo> list = new BoardDao().getTitleList("", null);
 		
+		List<BoardVo> list = new BoardDao().getTitleList(request.getParameter("find"), request.getParameter("kwd"), Integer.parseInt(request.getParameter("sqlNo")), false);
+		
+		int count = new BoardDao().getTitleList(request.getParameter("find"), request.getParameter("kwd"), Integer.parseInt(request.getParameter("sqlNo")), true).size();
 		request.setAttribute("list", list);
+		request.setAttribute("pageCount", count);
+		
+		System.out.println("list : " + list.toString());
+		System.out.println("count : " + count);
+		
 		
 		WebUtils.forward(request, response, "/WEB-INF/views/board/list.jsp");
 	}
