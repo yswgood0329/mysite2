@@ -97,7 +97,7 @@ insert into board value(8, 'Test Title8', 'Test Context', current_date(), 0, 3,6
 insert into board value(2, 'Test Title2', 'Test Context', current_date(), 0, 2,1,0, 2);
 insert into board value(1, 'Test Title1', 'Test Context', current_date(), 0, 1,1,0, 2);
 
-insert into board value(null, 'Test Title', 'Test Context', current_date(), 0, -1,2,1, 2);
+insert into board value(null, 'good', 'Test Context', current_date(), 0, -1,2,1, 2);
 
 insert into board value(null, 'Test Title1', 'Test Context', current_date(), 0, 1,1,0, 2);
 
@@ -170,3 +170,7 @@ select * from ( select * from board order by o_no ) as k order by g_no limit 0, 
 select count(*) from board limit 0, 10;
 
 select count(*) from board;
+
+select a.*, b.name from ( select * from board a join user b on b.no = a.user_no order by o_no) as k order by g_no;
+
+select no, title, write_date, hit, g_no, o_no, depth, user_no, k.name from ( select a.*, b.name from board a join user b on b.no = a.user_no where b.name like '%%' or context like '%%' or title like '%%' order by o_no ) as k order by g_no;
