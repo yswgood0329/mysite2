@@ -54,7 +54,7 @@
 					<table width=550>
 						<c:forEach items="${list }" var="comment_vo" varStatus="status">
 							<tr border=1>
-								<td height=25 colspan=3 bgcolor="#F2F3F5" >${comment_vo.userName } ${comment_vo.content }</td>
+								<td height=25 colspan=3 bgcolor="#F2F3F5" >${comment_vo.userName } | ${comment_vo.content }</td>
 							</tr>
 							<tr height=5px>
 								<td width=10%><a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&commentNo=${comment_vo.no }">좋아요</a> ${comment_vo.good }</td>
