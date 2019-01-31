@@ -42,17 +42,17 @@
 						<th>&nbsp;</th>
 					</tr>
 					
-					<c:set var="count" value="${fn:length(list) }"/>
+					<c:set var="count" value="${pageCount }"/>
 					
 					<c:forEach items="${list }" var="vo" varStatus="status">
 					<tr>
-						<td>${count - status.index }</td>
+						<td>${count - (param.sqlNo * 10) - status.index }</td>
 						<td style="padding-left:${25*(vo.depth) }px; text-align:left;">
 						<c:if test="${vo.orderNo ne 1 }">
 							<img src="/mysite2/assets/images/reply.png" style="width:10px">
 						</c:if>
 						<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
-						<td>${vo.userNo }</td> <!-- 이부분 수정 해야 합니다. user name이 나오도록 해야 합니다. -->
+						<td>${vo.context }</td> <!-- 이부분 수정 해야 합니다. user name이 나오도록 해야 합니다. -->
 						<td>${vo.hit }</td>
 						<td>${vo.writeDate }</td>
 						<td>
@@ -123,7 +123,7 @@
 						</c:choose>
 						
 					</ul>
-					<p>${param.pageNo } : ${param.sqlNo } : ${pageCount } : ${pages } : ${nowPage } : ${maxPage }</p>
+					<!--  <p>${param.pageNo } : ${param.sqlNo } : ${pageCount } : ${pages } : ${nowPage } : ${maxPage }</p> -->
 				
 				</div>					
 				<!-- pager 추가 -->

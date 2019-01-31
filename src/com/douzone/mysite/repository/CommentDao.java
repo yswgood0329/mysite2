@@ -22,7 +22,7 @@ public class CommentDao {
 		try {
 			conn = getConnection();
 			
-			String sql = "select * from comment where board_no = ?";
+			String sql = "select a.*, b.name from comment a join user b on a.user_no = b.no where board_no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -37,7 +37,7 @@ public class CommentDao {
 						rs.getString("write_date"),
 						rs.getInt("good"),
 						rs.getLong("board_no"),
-						rs.getLong("user_no")));
+						rs.getString("name")));
 			}
 			
 		} catch (SQLException e) {
@@ -79,6 +79,75 @@ public class CommentDao {
 			
 		} catch (SQLException e) {
 			System.out.println("error(CommentDao, insertComment)" + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void goodComment(long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "update comment set good = good + 1 where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error(CommentDao, goodComment)" + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void deleteComment(long boardNo, long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = getConnection();
+			
+			if(no == 0)
+				sql = "delete from comment where board_no = ? ";
+			else
+				sql = "delete from comment where no = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, boardNo);
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error(CommentDao, deleteComment)" + e);
 		} finally {
 			// 자원 정리
 			try {

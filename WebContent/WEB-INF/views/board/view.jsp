@@ -33,7 +33,7 @@
 						</td>
 					</tr>
 				</table>
-				<p>${param.pageNo } : ${param.sqlNo } : ${pageCount } : ${pages } : ${nowPage } : ${maxPage }</p>
+				<!-- <p>${param.pageNo } : ${param.sqlNo } : ${pageCount } : ${pages } : ${nowPage } : ${maxPage }</p> -->
 				<div class="bottom">
 						<a href="${pageContext.servletContext.contextPath }/board?pageNo=0&sqlNo=0">글목록</a>
 						<c:if test="${authuser.no eq vo.userNo }">
@@ -54,12 +54,14 @@
 					<table width=550>
 						<c:forEach items="${list }" var="comment_vo" varStatus="status">
 							<tr border=1>
-								<td height=25 colspan=3 bgcolor="#F2F3F5" >${comment_vo.userNo } ${comment_vo.content }</td>
+								<td height=25 colspan=3 bgcolor="#F2F3F5" >${comment_vo.userName } ${comment_vo.content }</td>
 							</tr>
 							<tr height=5px>
-								<td width=10%>좋아요 ${comment_vo.good }</td>
-								<td width=15%>댓글 달기</td>
+								<td width=10%><a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&commentNo=${comment_vo.no }">좋아요</a> ${comment_vo.good }</td>
 								<td>${comment_vo.writeDate }</td>
+								<c:if test="${authuser.name eq comment_vo.userName }">
+									<td><a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}&commentNo=${comment_vo.no }&aa=delete">삭제</a></td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</table>

@@ -23,8 +23,8 @@ public class BoardListAction implements Action {
 		request.setAttribute("list", list);
 		request.setAttribute("pageCount", count);
 		
-		System.out.println("list : " + list.toString());
-		System.out.println("count : " + count);
+//		System.out.println("list : " + list.toString());
+//		System.out.println("count : " + count);
 		
 		
 		WebUtils.forward(request, response, "/WEB-INF/views/board/list.jsp");

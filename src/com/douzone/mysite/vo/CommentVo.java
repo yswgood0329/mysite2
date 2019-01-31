@@ -6,16 +6,16 @@ public class CommentVo {
 	private String writeDate;
 	private int good;
 	private long boardNo;
-	private long userNo;
+	private String userName;
 	
 	
-	public CommentVo(long no, String content, String writeDate, int good, long boardNo, long userNo) {
+	public CommentVo(long no, String content, String writeDate, int good, long boardNo, String userName) {
 		this.no = no;
 		this.content = content;
 		this.writeDate = writeDate;
 		this.good = good;
 		this.boardNo = boardNo;
-		this.userNo = userNo;
+		this.userName = userName;
 	}
 	
 	
@@ -49,17 +49,27 @@ public class CommentVo {
 	public void setBoardNo(long boardNo) {
 		this.boardNo = boardNo;
 	}
-	public long getUserNo() {
-		return userNo;
+
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setUserNo(long userNo) {
-		this.userNo = userNo;
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
+
 	@Override
 	public String toString() {
 		return "CommentVo [no=" + no + ", content=" + content + ", writeDate=" + writeDate + ", good=" + good
-				+ ", boardNo=" + boardNo + ", userNo=" + userNo + "]";
+				+ ", boardNo=" + boardNo + ", userName=" + userName + ", getNo()=" + getNo() + ", getContent()="
+				+ getContent() + ", getWriteDate()=" + getWriteDate() + ", getGood()=" + getGood() + ", getBoardNo()="
+				+ getBoardNo() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+	
 	
 	
 }

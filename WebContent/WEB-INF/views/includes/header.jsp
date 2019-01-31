@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <div id="header">
 
-			<h1><a href="<%= request.getContextPath()%>">MySite</a></h1>
+			<h1><a href="<%= request.getContextPath()%>">승우의 프로그래밍 세상</a></h1>
 			<ul>
 				<%
 					UserVo authUser = (UserVo)session.getAttribute("authuser");
@@ -16,7 +16,7 @@
 				<%	} else { %>
 						<li><a href="<%=request.getContextPath()%>/user?a=modifyform">회원정보수정</a><li>
 						<li><a href="<%=request.getContextPath()%>/user?a=logout">로그아웃</a><li>
-						<li><%=authUser.getName() %>님 안녕하세요 ^^;</li>
+						<li><%=authUser.getName() %>님 반갑습니다. </li>
 						
 				<%
 					}

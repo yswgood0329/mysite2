@@ -26,10 +26,17 @@ public class BoardViewAction implements Action {
 		if(!("".equals(content) || content == null)) {
 			System.out.println("여기 작성" + request.getParameter("userNo"));
 			new CommentDao().insertComment(content, no, Long.parseLong(request.getParameter("userNo")));
+		} else if (request.getParameter("commentNo") != null){
+			System.out.println("commentNo" + request.getParameter("commentNo"));
+			new CommentDao().goodComment(Long.parseLong(request.getParameter("commentNo")));
 		} else {
 			System.out.println("여기 작성 ㄴㄴ");
 		}
+		if ("delete".equals(request.getParameter("aa"))){
+			new CommentDao().deleteComment(Long.parseLong(request.getParameter("commentNo")), -1);
+		}
 		
+		new BoardDao().hitUpdate(no);
 		
 //		System.out.println("no : " + no);
 		

@@ -31,10 +31,10 @@ public class BoardDao {
 			
 			if ("title".equals(find)) {
 //				System.out.println("title");
-				subsql1 = " select * from board where title like ? order by o_no ";
+				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where title like ? order by o_no ";
 			} else if ("content".equals(find)) {
 //				System.out.println("content");
-				subsql1 = " select * from board where context like ? order by o_no ";
+				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where context like ? order by o_no ";
 			} else if ("user".equals(find)) {
 //				System.out.println("user");
 				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? order by o_no ";
@@ -43,7 +43,7 @@ public class BoardDao {
 				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no where b.name like ? or context like ? or title like ? order by o_no ";
 			} else {
 //				System.out.println("other");
-				subsql1 = " select * from board order by o_no ";
+				subsql1 = " select a.*, b.name from board a join user b on b.no = a.user_no order by o_no ";
 			}
 			
 			
@@ -54,7 +54,8 @@ public class BoardDao {
 								 + "g_no, "
 								 + "o_no, "
 								 + "depth, "
-								 + "user_no "
+								 + "user_no, "
+								 + "k.name "
 								 
 					   + "from		( " + subsql1 + " ) as k "
 					   + "order 	by g_no ";
@@ -93,7 +94,7 @@ public class BoardDao {
 			while(rs.next()) {
 				list.add(new BoardVo(rs.getLong("no"),
 							rs.getString("title"),
-							null, // rs.getString("context"),
+							rs.getString("name"),
 							rs.getString("write_date"),
 							rs.getInt("hit"),
 							rs.getInt("g_no"),
@@ -389,6 +390,37 @@ public class BoardDao {
 			}
 		}
 		return result;
+	}
+	
+	public void hitUpdate(long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+//			System.out.println(groupNo + " : " + orderNo + " : " + no);
+			String sql = "update board set hit = hit + 1 where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error(hitUpdate) : " + e);
+		} finally {
+			// 자원 정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 //	
 	private Connection getConnection() throws SQLException {
