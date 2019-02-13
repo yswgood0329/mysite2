@@ -52,6 +52,60 @@ public class UserDao {
 			}
 		}
 	}
+	public UserVo get(String email) {
+		System.out.println("test userDao get");
+		UserVo result = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			System.out.println(conn);
+
+			String sql = "select	no, name, gender "
+					   + "from 		user "
+					   + "where 	email= ? ";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, email);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				long no = rs.getLong("no");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				
+				result = new UserVo();
+				result.setNo(no);
+				result.setName(name);
+				result.setEmail(email);
+				result.setGender(gender);
+				
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error :" + e);
+		} finally {
+			// 자원 정리
+			try {
+				if(rs != null)
+					rs.close();
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	public UserVo get(String email, String password ) {
 		UserVo result = null;

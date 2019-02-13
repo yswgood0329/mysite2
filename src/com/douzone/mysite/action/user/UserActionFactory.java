@@ -8,6 +8,7 @@ public class UserActionFactory extends AbstractActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
+		System.out.println("test userActionFactory");
 		Action action = null;
 		if("joinform".equals(actionName)){
 			action = new JoinFormAction();
@@ -25,6 +26,8 @@ public class UserActionFactory extends AbstractActionFactory {
 			action = new ModifyAction();
 		} else if("logout".equals(actionName)){
 			action = new LogoutAction();
+		} else if("ajax-checkemail".equals(actionName)){
+			action = new AjaxCheckEmailAction();
 		} else {
 			action = new IndexAction();
 		}
