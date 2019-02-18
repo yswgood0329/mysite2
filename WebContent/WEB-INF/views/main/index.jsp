@@ -1,34 +1,90 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="com.douzone.mysite.vo.UserVo"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
-<head>
-<title>mysite</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath }/assets/css/main.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"/>
-		<div id="wrapper">
-			<div id="content">
-				<div id="site-introduction">
-					<img id="profile" src="${pageContext.servletContext.contextPath }/assets/images/양승우.jpg" style="width:200px">
-					<h2>안녕하세요. 양승우의  mysite에 오신 것을 환영합니다.</h2>
-					<p>
-						이 사이트는 웹 프로그래밍 실습 과제 예제 사이트 입니다.<br>
-						겁나 열심히 만들었구요.... 잘 봐주세요.....<br>
-						그런데 로그인을 안하시면 글쓰기나 수정 아무것도 안되요<br><br>
-						<strong><font size="4em" color="red">꼭 회원 가입 하시고 로그인 하셔야 됩니다.</font></strong><br><br>
-						버튼도 없다고 기능 구현 안한거 <strong><font size="3em" color="red">절대</font></strong> 아닙니다.<br><br>
-						<a href="${pageContext.servletContext.contextPath }/guestbook?a=guestbook">방명록</a>에 글 남기기<br>
-					</p>
-				</div>
-			</div>
-		</div>
-		<jsp:include page="/WEB-INF/views//includes/navigation.jsp"/>
-		<jsp:include page="/WEB-INF/views//includes/footer.jsp"/>
-		
-	</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link type="text/css" rel="stylesheet" href="${pageContext.servletContext.contextPath }/assets/css/css3DLayerd.css">
+        <link type="text/css" rel="stylesheet" href="${pageContext.servletContext.contextPath }/assets/css/header.css">
+        <link type="text/css" rel="stylesheet" href="${pageContext.servletContext.contextPath }/assets/css/footer.css">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+              rel="stylesheet"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+              crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="header">
+            <ul>
+            	<%
+					UserVo authUser = (UserVo)session.getAttribute("authuser");
+					// System.out.println(authUser.toString());
+					if(null == authUser){
+						
+				%>
+                <li><a href="<%=request.getContextPath()%>/user?a=joinform">
+                    <span>회원가입</span>
+                </a></li>
+                <li><a href="<%= request.getContextPath()%>/user?a=loginform"">
+                    <span>로그인</span>
+                </a></li>
+                <%	} else { %>
+                <li><span><%=authUser.getName() %></span></li>
+                <li><a href="<%=request.getContextPath()%>/user?a=modifyform">
+                    <span>정보수정</span>
+                </a></li>
+                <li><a href="<%=request.getContextPath()%>/user?a=logout">
+                    <span>로그아웃</span>
+                </a></li>
+                
+                <%
+					}
+				%>
+            </ul>
+        </div>
+        <div class="navigator">
+        <ul>
+            <li><a href="index2.jsp">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="fa fa-home" aria-hidden="true"></span>
+            </a></li>
+            <li><a href="<%= request.getContextPath()%>/guestbook?a=guestbook">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="fa fa-comment" aria-hidden="true"></span>
+            </a></li>
+            <li><a href="<%= request.getContextPath()%>/guestbook?a=ajax">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="fa fa-comment" aria-hidden="true"></span>
+            </a></li>
+            <li><a href="<%= request.getContextPath()%>/board?pageNo=0&sqlNo=0">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="fa fa-newspaper-o" aria-hidden="true"></span>
+            </a></li>
+            <li><a href="http://github.com/yswgood0329">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="fa fa-github" aria-hidden="true"></span>
+            </a></li>
+        </ul>
+        </div>
+        <div class="footer">
+            <span>Copyleft (o) 2018 All Wrongs Reserved</span>
+        </div>
+    </body>
 </html>
